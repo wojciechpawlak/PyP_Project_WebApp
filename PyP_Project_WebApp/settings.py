@@ -3,6 +3,7 @@
 from path import path
 
 db_path = path('db/PyP_Project_WebApp.db')
+templates_path = path('templates')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -112,6 +113,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    templates_path.relpath(),
 )
 
 INSTALLED_APPS = (
@@ -125,8 +127,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'easy_maps',
     'twitter_status_map',
 )
+
+EASY_MAPS_GOOGLE_KEY = "AIzaSyD_7IvHQ55T3U1BphcJvHURbFlUpkcbErw"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
