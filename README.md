@@ -6,7 +6,7 @@ A Django web application that maps tweets to the online map. Project work for 02
 Project dependencies setup:
     
     Path.py:
-        pip install path
+        pip install path.py
     
     django-easy-maps:
         pip install geopy

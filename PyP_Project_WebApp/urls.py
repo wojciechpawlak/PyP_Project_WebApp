@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'PyP_Project_WebApp.views.home', name='home'),
     # url(r'^PyP_Project_WebApp/', include('PyP_Project_WebApp.foo.urls')),
     url(r'^twitter_status_map/', include('twitter_status_map.urls')),
+    # url(r'^easy_maps/', include('twitter_status_map.urls')),
     
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -1,3 +1,10 @@
-{% load easy_maps_tags %}
-
-{% easy_map "Denmark, Kgs.Lyngby, Anker Engelunds Vej 1" 600 600 %}
+<html>
+    <body>
+        {% load easy_maps_tags cache %}
+        
+        <!-- cache fo 600 secs -->
+        {% cache cache_timeout google_map first_map %}
+            {% easy_map first_map 1000 1000 %}
+        {% endcache %}
+    </body>
+</html>
