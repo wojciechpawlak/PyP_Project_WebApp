@@ -9,13 +9,17 @@ import twitter
 from googlemaps import GoogleMaps, GoogleMapsError
 gmaps = GoogleMaps('AIzaSyD_7IvHQ55T3U1BphcJvHURbFlUpkcbErw')
 
+from twitter_status_map.util import *
+
+import numpy as np
 
 def index(request):
-
+    
     api = twitter.Api()
     tweets=[]
     errors=[]
     user_search=0
+    texts=[]
     if 'q' in request.GET:
         if 'r' in request.GET and request.GET['r']:
             radius=request.GET['r']
@@ -26,10 +30,11 @@ def index(request):
         user_search=1
         try:
             lat, lng = gmaps.address_to_latlng(region.encode('utf8','ignore'))
-            tw=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='')
+            tw=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100)
             
             for i,t in enumerate(tw):
-                tweets.append({'text':t.text,'user':t.user.AsDict()['screen_name']})
+                tweets.append({'text':t.text,'user':t.user.AsDict()['screen_name'],'datetime':t.AsDict()['created_at']})
+                texts.append(t.text)
         except GoogleMapsError:
             errors.append('Sorry, invalid region.')
             region='Denmark, Anker Engelundsvej 1'
@@ -37,7 +42,17 @@ def index(request):
     else:
         region='Denmark, Anker Engelundsvej 1'
     
+    moodList=getAreaMood(texts)
+    
+    moodList=np.array(moodList)
+    sd=np.std(moodList)
+    mean=np.mean(moodList)
+    positives=sum(moodList>0)
+    negatives=sum(moodList<0)
+    neutrals=sum(moodList==0)
+    
+    moods={'sd':sd,'mean':mean,'positives':positives,'negatives':negatives,'neutrals':neutrals}
     
     first_map = Map.objects.all()[0]
-    context = {'first_map': region,  'errors':errors,'tweets':tweets,'user_search':user_search}
+    context = {'first_map': region,  'errors':errors,'tweets':tweets,'user_search':user_search,'moodList':moodList,'moods':moods}
     return render(request, 'twitter_status_map/index.html', context)

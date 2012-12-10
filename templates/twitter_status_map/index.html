@@ -26,8 +26,12 @@
     {% load easy_maps_tags %}
     {% easy_map first_map 1000 1000 %}
     
-    
-    
+    <!--Statistics -->
+    <p>Positives: {{ moods.positives }} </p>
+    <p>Negatives: {{ moods.negatives }} </p>
+    <p>Neutrals: {{ moods.neutrals }} </p>
+    <p>Mean: {{ moods.mean }} </p>
+    <p>Standard deviation: {{ moods.sd }} </p>
     <!-- Show tweets -->
     {% if user_search and not errors %}
         <p>You searched for "{{ first_map }}".</p>
@@ -36,9 +40,9 @@
             
             {% for tweet in tweets %}
                 <p>{{ forloop.counter }}: {{ tweet.user }}</p>
-                <p>{{tweet.geo }}</p>
-                
+                <p>{{ tweet.datetime }}</p>
                 <p>{{ tweet.text }}</p>
+                </br>
             {% endfor %}
         {% else %}
             <p>No tweets where found.</p>
