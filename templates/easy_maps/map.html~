@@ -15,7 +15,7 @@
          class="easy-map-googlemap">
          {% block noscript %}
          <noscript>
-            <img alt="Map of {{ map.address }}" src="http://maps.google.com/maps/api/staticmap?center={{ lat }},{{ long }}&zoom={{ zoom }}&markers={{ lat }},{{ long }}&size={{ width }}x{{ height }}&sensor=false">
+            <img alt="Map of {{ map.address }}" src="http://maps.google.com/maps/api/staticmap?center=100,100&zoom={{ zoom }}&markers=100,100&size={{ width }}x{{ height }}&sensor=false">
          </noscript>
          {% endblock noscript %}
     </div>
@@ -25,7 +25,7 @@
     <!-- Map creation script -->
     <script type="text/javascript">
         function initialize_map_{{ map.pk }}() {
-            var latlng = new google.maps.LatLng({{ lat }}, {{ long }});
+            var latlng = new google.maps.LatLng(100, 100);
             var mapElem = document.getElementById("map-canvas-{{ map.pk }}");
 
             {% block map_options_js %}

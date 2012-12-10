@@ -1,6 +1,5 @@
 <html>
     <body>
-    <!-- Check for errors -->
     {% if errors %}
         Errors:
         <ul>
@@ -9,7 +8,6 @@
             {% endfor %}
         </ul>
     {% endif %}
-    
     
     <!-- Input -->
     Region:
@@ -32,8 +30,6 @@
     {% cache cache_timeout google_map first_map %}
         {% easy_map first_map 1000 1000 %}
     {% endcache %}
-    
-    
     
     <!-- Show tweets -->
     {% if user_search and not errors %}

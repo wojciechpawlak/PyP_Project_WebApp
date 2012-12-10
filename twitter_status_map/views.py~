@@ -31,7 +31,7 @@ def index(request):
         user_search=1
         if region:
             lat, lng = gmaps.address_to_latlng(region)
-            tw=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='')
+            tw=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'mi'),lang='')
             
             for i,t in enumerate(tw):
                 tweets.append({'text':t.text,'user':t.user.AsDict()['screen_name']})
