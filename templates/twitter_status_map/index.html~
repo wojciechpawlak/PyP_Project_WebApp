@@ -1,5 +1,6 @@
 <html>
     <body>
+    <!-- Check for errors -->
     {% if errors %}
         Errors:
         <ul>
@@ -9,18 +10,16 @@
         </ul>
     {% endif %}
     
+    
     <!-- Input -->
-    Region:
+    Region and radius in km (optional):
     <form action="" method="get">
         <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
-    
-    Radius in km (optional):
-    <form action="" method="get">
+        
         <input type="number" name="r">
         <input type="submit" value="Search">
     </form>
+    
     
     
     
@@ -30,6 +29,8 @@
     {% cache cache_timeout google_map first_map %}
         {% easy_map first_map 1000 1000 %}
     {% endcache %}
+    
+    
     
     <!-- Show tweets -->
     {% if user_search and not errors %}

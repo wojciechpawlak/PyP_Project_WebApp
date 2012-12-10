@@ -12,26 +12,19 @@
     
     
     <!-- Input -->
-    Region:
+    Region and radius in km (optional):
     <form action="" method="get">
         <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
-    
-    Radius in km (optional):
-    <form action="" method="get">
+        
         <input type="number" name="r">
         <input type="submit" value="Search">
     </form>
     
     
     
-    {% load easy_maps_tags cache %}
     
-    <!-- cache fo 600 secs -->
-    {% cache cache_timeout google_map first_map %}
-        {% easy_map first_map 1000 1000 %}
-    {% endcache %}
+    {% load easy_maps_tags %}
+    {% easy_map first_map 1000 1000 %}
     
     
     
