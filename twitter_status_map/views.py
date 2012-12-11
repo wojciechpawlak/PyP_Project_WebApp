@@ -31,13 +31,14 @@ def index(request):
         user_search=1
         try:
             lat, lng = gmaps.address_to_latlng(region.encode('utf8','ignore'))
-            tw1=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100)
+            tw1=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100,page=1)
+            tw1 = tw1 + api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100,page=2)
+            tw1 = tw1 + api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100,page=3)
             
-            tw2=api.GetSearch(term=region,lang='',per_page=100)
-            
-#            tw = list(set(tw1) & set(tw2))
-            
-            
+            tw2=api.GetSearch(term=region,lang='en',per_page=100, page=1)
+            tw2=tw2 + api.GetSearch(term=region,lang='en',per_page=100, page=2)
+            tw2=tw2 + api.GetSearch(term=region,lang='en',per_page=100, page=3)
+
             tw_list = tw1 + tw2
             tw_set = set(tw_list)
             tw_us = list(tw_set) 
