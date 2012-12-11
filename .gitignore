@@ -26,5 +26,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-#SQLite Databse
+#SQLite Database
 *.db
+
+#gedit (Olavur's Ubuntu text editor) temporary files
+*.*~
