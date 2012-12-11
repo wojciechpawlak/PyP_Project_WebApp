@@ -12,6 +12,7 @@ gmaps = GoogleMaps('AIzaSyD_7IvHQ55T3U1BphcJvHURbFlUpkcbErw')
 from twitter_status_map.util import *
 
 import numpy as np
+import time
 
 def index(request):
     
@@ -30,7 +31,18 @@ def index(request):
         user_search=1
         try:
             lat, lng = gmaps.address_to_latlng(region.encode('utf8','ignore'))
-            tw=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100)
+            tw1=api.GetSearch(geocode=(str(lat),str(lng),str(radius)+'km'),lang='en',per_page=100)
+            
+            tw2=api.GetSearch(term=region,lang='',per_page=100)
+            
+#            tw = list(set(tw1) & set(tw2))
+            
+            
+            tw_list = tw1 + tw2
+            tw_set = set(tw_list)
+            tw_us = list(tw_set) 
+            
+            tw = sorted(tw_us, key=lambda t: time.strptime(t.created_at, "%a, %d %b %Y %H:%M:%S +0000"), reverse=True)
             
             for i,t in enumerate(tw):
                 tweets.append({'text':t.text,'user':t.user.AsDict()['screen_name'],'datetime':t.AsDict()['created_at']})
