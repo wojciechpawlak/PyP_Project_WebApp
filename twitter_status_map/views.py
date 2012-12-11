@@ -7,27 +7,36 @@ from twitter_status_map.models import Map
 import twitter
 
 from googlemaps import GoogleMaps, GoogleMapsError
-gmaps = GoogleMaps('AIzaSyD_7IvHQ55T3U1BphcJvHURbFlUpkcbErw')
 
+gmaps = GoogleMaps()
+
+DEFAULT_RADIUS = 25
+
+#from data_collector import DataCollector
 from twitter_status_map.util import *
 
-import numpy as np
 import time
+import numpy as np
 
 def index(request):
     
     api = twitter.Api()
+    
+    
     tweets=[]
     errors=[]
+    
     user_search=0
+    
     texts=[]
     
     
     if 'q' in request.GET:
+    
         if 'r' in request.GET and request.GET['r']:
             radius=request.GET['r']
         else:
-            radius=25
+            radius=DEFAULT_RADIUS # default radius
         
         region=request.GET['q']
         user_search=1
