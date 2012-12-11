@@ -21,25 +21,37 @@
     </form>
     
     
-    
-    
-    {% load easy_maps_tags %}
-    {% easy_map first_map 1000 1000 %}
-    
-    <!--Statistics -->
-    <p>Positives: {{ moods.positives }} </p>
-    <p>Negatives: {{ moods.negatives }} </p>
-    <p>Neutrals: {{ moods.neutrals }} </p>
-    <p>Mean: {{ moods.mean }} </p>
-    <p>Standard deviation: {{ moods.sd }} </p>
-    <!-- Show tweets -->
-    {% if user_search and not errors %}
-        <p>You searched for "{{ first_map }}".</p>
+    <div>
+    <div style="width:800px">
+        <div style="float:left">
+            {% load easy_maps_tags %}
+            {% easy_map first_map 500 500 %}
+        </div> 
+       
+        <div>
+            {% if user_search and not errors %}
+            <h1>Results</h1>
+            <p>You searched for "{{ first_map }}".</p>
+            <!--Statistics -->
+            <h2>Statistics</h2>
+            <p>Positives: {{ moods.positives }} </p>
+            <p>Negatives: {{ moods.negatives }} </p>
+            <p>Neutrals: {{ moods.neutrals }} </p>
+            <p>Mean: {{ moods.mean }} </p>
+            <p>Standard deviation: {{ moods.sd }} </p>
+        </div> 
+       
+       </div> 
+        
+        <div style="float:left">
+        <!-- Show tweets -->
+        
+        <h2>Tweets</h2>
         {% if tweets %}
             <p> {{ tweets|length }} tweet{{ tweets|pluralize}} were found!</p>
             
             {% for tweet in tweets %}
-                <p>{{ forloop.counter }}: {{ tweet.user }}</p>
+                <h4>{{ forloop.counter }}: {{ tweet.user }}</h4>
                 <p>{{ tweet.datetime }}</p>
                 <p>{{ tweet.text }}</p>
                 </br>
@@ -48,6 +60,7 @@
             <p>No tweets where found.</p>
         {% endif %}
     {% endif %}
-    
+    </div>
+    </div>
     </body>
 </html>
