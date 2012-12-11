@@ -4,7 +4,7 @@ import operator
 # afinn is a dictionary with words as keys and their positivity/negativity as values.
 afinn = dict(map(lambda (k,v): (k,int(v)),[ line.split('\t') for line in open("twitter_status_map/AFINN/AFINN-111.txt") ]))
 
-def removeReTweets(tweetList):
+def remove_retweets(tweetList):
     '''
     Removes retweets.
     
