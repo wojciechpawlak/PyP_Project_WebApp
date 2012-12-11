@@ -57,7 +57,7 @@ def index(request):
     else:
         region='Denmark, Anker Engelundsvej 1'
     
-    moodList=getRegionMood(texts)
+    moodList=getAreaMood(texts)
     
     moodList=np.array(moodList)
     sd=np.std(moodList)
