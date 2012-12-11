@@ -21,6 +21,8 @@ def index(request):
     errors=[]
     user_search=0
     texts=[]
+    
+    
     if 'q' in request.GET:
         if 'r' in request.GET and request.GET['r']:
             radius=request.GET['r']
@@ -48,7 +50,7 @@ def index(request):
             tw=removeReTweets(tw)
             
             for i,t in enumerate(tw):
-                tweets.append({'text':t.text,'user':t.user.AsDict()['screen_name'],'datetime':t.AsDict()['created_at']})
+                tweets.append({'text':t.text,'user':t.user.AsDict()['screen_name'],'datetime':t.AsDict()['created_at'],'image':t.user.AsDict()['profile_image_url']})
                 texts.append(t.text)
         except GoogleMapsError:
             errors.append('Sorry, invalid region.')
@@ -72,6 +74,12 @@ def index(request):
         elif moodList>0:
             t['moodColor']='green'
     
+    topicsTemp=getTopic(texts)[0:21]
+    
+    topics=[]
+    for i,j in enumerate(topicsTemp):
+        topics.append({'word':j[0],'freq':j[1],'mood':j[2]})
+    
     moodListClean=cleanNoneMoods(moodList)
     moodListClean=np.array(moodListClean)
     sd=np.std(moodListClean)
@@ -84,5 +92,5 @@ def index(request):
     moods={'sd':sd,'mean':mean,'positives':positives,'negatives':negatives,'neutrals':neutrals,'NoMood':NoMood}
     
     first_map = Map.objects.all()[0]
-    context = {'first_map': region,  'errors':errors,'tweets':tweets,'user_search':user_search,'moodList':moodList,'moods':moods}
+    context = {'first_map': region,  'errors':errors,'tweets':tweets,'user_search':user_search,'moodList':moodList,'moods':moods,'topics':topics}
     return render(request, 'twitter_status_map/index.html', context)

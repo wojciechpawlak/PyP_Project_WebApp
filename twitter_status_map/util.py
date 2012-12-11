@@ -1,4 +1,5 @@
 import re
+import operator
 
 afinn = dict(map(lambda (k,v): (k,int(v)),[ line.split('\t') for line in open("twitter_status_map/AFINN/AFINN-111.txt") ]))
 
@@ -50,14 +51,62 @@ def cleanNoneMoods(moodList):
     
     return moodOut
 
+def getTopic(texts):
+    temp=[]
+    for i,j in enumerate(texts):
+        temp.append(cleanTweet(j))
+    
+    words=[]
+    for i,j in enumerate(temp):
+        for n,m in enumerate(j):
+            words.append(m)
+    
+    freq={}
+    for i,j in enumerate(words):
+        if j in freq:
+            freq[j]+=1
+        else:
+            freq[j]=1
+    
+    fvalues=freq.values().sort(reverse=True)
+    
+    words_sorted = sorted(freq.iteritems(), key=operator.itemgetter(1), reverse=True)
+    
+    wfm=[]
+    for i,j in enumerate(words_sorted):
+        wfm.append((j[0],j[1],afinn.get(j[0],'None')))
+    
+    wfm2=[]
+    for i,j in enumerate(wfm):
+        if j[2]!='None':
+            wfm2.append(j)
+    
+    return wfm2
+        
 
-  
-'''
-from twitter_status_map.util import *
-
-text='RT @MarilynMonroeID: People may doubt what you say, but they will always believe what you do.'
-
-cleanTweet(text)
 
 
-'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

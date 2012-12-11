@@ -33,6 +33,9 @@
             <h1>Results</h1>
             <p>You searched for "{{ first_map }}".</p>
             <!--Statistics -->
+            {% if tweets %}
+            <p> {{ tweets|length }} tweet{{tweets|pluralize }} were found!</p>
+
             <h2>Statistics</h2>
             <p>Positives: {{ moods.positives }} </p>
             <p>Negatives: {{ moods.negatives }} </p>
@@ -40,6 +43,12 @@
             <p>No information: {{ moods.NoMood }}</p>
             <p>Mean: {{ moods.mean }} </p>
             <p>Standard deviation: {{ moods.sd }} </p>
+            <h3>Frequent words:</h3>
+            {% for topic in topics %}
+                <h4>{{ topic.word }}:</h4>
+                <p>Frequency: {{ topic.freq }}</p>
+                <p>Mood: {{ topic.mood }}</p>
+            {% endfor %}
         </div> 
        
        </div> 
@@ -48,13 +57,12 @@
         <!-- Show tweets -->
         
         <h2>Tweets</h2>
-        {% if tweets %}
-            <p> {{ tweets|length }} tweet{{ tweets|pluralize}} were found!</p>
             
             {% for tweet in tweets %}
                 <div style="color:{{tweet.moodColor}}">
                 <h4>{{ forloop.counter }}: {{ tweet.user }}</h4>
                 <p>Mood: {{ tweet.mood }} </p>
+                <img src="{{tweet.image}}"/>
                 <p>{{ tweet.datetime }}</p>
                 <p>{{ tweet.text }}</p>
                 </br>
