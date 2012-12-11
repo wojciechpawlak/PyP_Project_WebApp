@@ -37,6 +37,7 @@
             <p>Positives: {{ moods.positives }} </p>
             <p>Negatives: {{ moods.negatives }} </p>
             <p>Neutrals: {{ moods.neutrals }} </p>
+            <p>No information: {{ moods.NoMood }}</p>
             <p>Mean: {{ moods.mean }} </p>
             <p>Standard deviation: {{ moods.sd }} </p>
         </div> 
@@ -51,10 +52,13 @@
             <p> {{ tweets|length }} tweet{{ tweets|pluralize}} were found!</p>
             
             {% for tweet in tweets %}
+                <div style="color:{{tweet.moodColor}}">
                 <h4>{{ forloop.counter }}: {{ tweet.user }}</h4>
+                <p>Mood: {{ tweet.mood }} </p>
                 <p>{{ tweet.datetime }}</p>
                 <p>{{ tweet.text }}</p>
                 </br>
+                </div>
             {% endfor %}
         {% else %}
             <p>No tweets where found.</p>

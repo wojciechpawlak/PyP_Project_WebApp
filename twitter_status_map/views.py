@@ -57,16 +57,31 @@ def index(request):
     else:
         region='Denmark, Anker Engelundsvej 1'
     
+    
     moodList=getRegionMood(texts)
     
-    moodList=np.array(moodList)
-    sd=np.std(moodList)
-    mean=np.mean(moodList)
-    positives=sum(moodList>0)
-    negatives=sum(moodList<0)
-    neutrals=sum(moodList==0)
+    for i,t in enumerate(tweets):
+        t['mood']=moodList[i]
+        
+        if moodList[i]=='None':
+            t['moodColor']='black'
+        elif moodList[i]==0:
+            t['moodColor']='blue'
+        elif moodList[i]<0:
+            t['moodColor']='red'
+        elif moodList>0:
+            t['moodColor']='green'
     
-    moods={'sd':sd,'mean':mean,'positives':positives,'negatives':negatives,'neutrals':neutrals}
+    moodListClean=cleanNoneMoods(moodList)
+    moodListClean=np.array(moodListClean)
+    sd=np.std(moodListClean)
+    mean=np.mean(moodListClean)
+    positives=sum(moodListClean>0)
+    negatives=sum(moodListClean<0)
+    neutrals=sum(moodListClean==0)
+    NoMood=len(moodList)-len(moodListClean)
+    
+    moods={'sd':sd,'mean':mean,'positives':positives,'negatives':negatives,'neutrals':neutrals,'NoMood':NoMood}
     
     first_map = Map.objects.all()[0]
     context = {'first_map': region,  'errors':errors,'tweets':tweets,'user_search':user_search,'moodList':moodList,'moods':moods}

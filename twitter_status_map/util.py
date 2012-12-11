@@ -26,6 +26,13 @@ def getMood(text):
     
     mood=sum(map(lambda word: afinn.get(word, 0), tweet))
     
+    check=0
+    for i,j in enumerate(tweet):
+        if afinn.get(j,100)!=100:
+            check=1
+    if check==0:
+        mood='None'
+    
     return mood
 
 def getRegionMood(tweetList):
@@ -34,6 +41,14 @@ def getRegionMood(tweetList):
     
     return moodList
 
+def cleanNoneMoods(moodList):
+    moodOut=[]
+    
+    for i,j in enumerate(moodList):
+        if j!='None':
+            moodOut.append(j)
+    
+    return moodOut
 
 
   
