@@ -87,8 +87,8 @@ class DataCollector(object):
         except GoogleMapsError:
             return []
         
-        for num_page in range(1,self.num_pages):
-            tweets = tweets + self.api.GetSearch(geocode=(str(lat),str(lng),str(self.radius)+self.dist_unit),lang=LANG,per_page=self.per_page,page=num_page)
+        for num_page in range(1,self.num_pages+1):
+            tweets = tweets + self.api.GetSearch(geocode=(str(lat),str(lng),str(self.radius)+self.dist_unit),lang=self.lang,per_page=self.per_page,page=num_page)
 
         return tweets
             
@@ -109,7 +109,7 @@ class DataCollector(object):
         
         tweets = []
         
-        for num_page in range(1,self.num_pages):
+        for num_page in range(1,self.num_pages+1):
             tweets = tweets + self.api.GetSearch(term=self.region,lang=self.lang,per_page=self.per_page, page=num_page)
         
         return tweets
@@ -127,12 +127,12 @@ class DataCollector(object):
 #        if region == '':
 #            self.region = DEFAULT_REGION
 #        else:
-#            self.region = region
+        self.region = region
 #           
 #        if region <= 0:
 #            self.radius = DEFAULT_RADIUS
 #        else:
-#            self.radius = radius
+        self.radius = radius
         
         
         # retrieve tweets using two different Twitter Search API queries one after another
@@ -140,6 +140,7 @@ class DataCollector(object):
             all_tweets = self.__retrieve_tweets_by_geocode()
         except GoogleMapsError:
             raise RegionError("Invalid region")
+        
         all_tweets = all_tweets + self.__retrieve_tweets_by_region()
     
         # uniquify list of tweets through making a set and convert it back to list (faster methods exist)

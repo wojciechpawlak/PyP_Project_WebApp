@@ -65,7 +65,7 @@ class SimpleSentimentAnalyzer(object):
         return moods
     
     
-    def clean_none_moods(self, moodList):
+    def clean_none_moods(self, moods):
         '''
         moodList is a list of integers, and possibly the string 'None'
         
@@ -76,7 +76,7 @@ class SimpleSentimentAnalyzer(object):
         
         moodOut=[]
         
-        for i in moodList:
+        for i in moods:
             if i != 'None':
                 moodOut.append(i)
         
@@ -96,7 +96,7 @@ class SimpleSentimentAnalyzer(object):
         
         return {'sd':sd,'mean':mean,'positives':positives,'negatives':negatives,'neutrals':neutrals,'NoMood':NoMood}
     
-    def get_topic(self, texts):
+    def get_top_word_frequencies(self, texts):
         '''
         texts is a list of strings.
         

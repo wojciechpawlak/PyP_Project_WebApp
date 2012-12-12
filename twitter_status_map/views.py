@@ -73,7 +73,7 @@ def index(request):
     
     mood_stats = ssa.prepare_mood_stats(moods)
 
-    topicsTemp = ssa.get_topic(texts_to_analyze)[0:21]
+    topicsTemp = ssa.get_top_word_frequencies(texts_to_analyze)[0:21]
     
     topics=[]
     for i,j in enumerate(topicsTemp):
