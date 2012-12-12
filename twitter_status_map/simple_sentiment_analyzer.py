@@ -20,12 +20,12 @@ class SimpleSentimentAnalyzer(object):
         '''
         Constructor
         '''
-        # afinn is a dictionary with words as keys and their positivity/negativity as values.
+        # wordlist is a dictionary with words as keys and mood as values.
         if wordlist_name == 'afinn':
-            self.wordlist = dict(map(lambda (k,v): (k,int(v)),[ line.split('\t') for line in open("resources/AFINN-111.txt") ]))
+            self.wordlist = dict(map(lambda (k, v): (k, int(v)), [ line.split('\t') for line in open("resources/AFINN-111.txt") ]))
         else:
-            self.wordlist = dict(map(lambda (k,v): (k,int(v)),[ line.split('\t') for line in open("resources/EmotionLookupTable.txt") ]))
-            self.wordlist.update(dict(map(lambda (k,v): (k,int(v)),[ line.split('\t') for line in open("resources/EmoticonLookupTable.txt") ])))  
+            self.wordlist = dict(map(lambda (k, v): (k, int(v)), [ line.split('\t') for line in open("resources/EmotionLookupTable.txt") ]))
+            self.wordlist.update(dict(map(lambda (k, v): (k, int(v)), [ line.split('\t') for line in open("resources/EmoticonLookupTable.txt") ])))  
         
         
     def get_tweet_text_mood(self, text):
@@ -45,11 +45,11 @@ class SimpleSentimentAnalyzer(object):
         # Check whether any mood was found.
         check = 0
         for i in clean_text:
-            if self.wordlist.get(i,100) != 100: # ?
-                check=1
+            if self.wordlist.get(i, 100) != 100: # ?
+                check = 1
         
         if check == 0:
-            text_mood='None'
+            text_mood = 'None'
         
         return text_mood
 
@@ -74,27 +74,35 @@ class SimpleSentimentAnalyzer(object):
         Returns a list of integers.
         '''
         
-        moodOut=[]
+        mood_out = []
         
         for i in moods:
             if i != 'None':
-                moodOut.append(i)
+                mood_out.append(i)
         
-        return moodOut
+        return mood_out
 
         
-    def prepare_mood_stats(self, moodList):
+    def prepare_mood_stats(self, mood_list):
+        '''
+        Output: dictionary of statistics on the input
         
-        moodListClean = self.clean_none_moods(moodList)
-        moodListClean = np.array(moodListClean)
-        sd = np.std(moodListClean)
-        mean = np.mean(moodListClean)
-        positives = sum(moodListClean>0)
-        negatives = sum(moodListClean<0)
-        neutrals = sum(moodListClean==0)
-        NoMood = len(moodList)-len(moodListClean)
+        Input: list of integers (moods)
+        '''
+        mood_list_clean = self.clean_none_moods(mood_list)
+        mood_list_clean = np.array(mood_list_clean)
+        std = np.std(mood_list_clean)
+        mean = np.mean(mood_list_clean)
+        positives = sum(mood_list_clean>0)
+        negatives = sum(mood_list_clean<0)
+        neutrals = sum(mood_list_clean==0)
+        no_mood = len(mood_list)-len(mood_list_clean)
         
-        return {'sd':sd,'mean':mean,'positives':positives,'negatives':negatives,'neutrals':neutrals,'NoMood':NoMood}
+        return {'sd':std, 'mean':mean,
+            'positives':positives,
+            'negatives':negatives,
+            'neutrals':neutrals,
+            'NoMood':no_mood}
     
     def get_top_word_frequencies(self, texts):
         '''
@@ -107,34 +115,37 @@ class SimpleSentimentAnalyzer(object):
         '''
         
         # Making the list of sentences into a list of words
-        temp=[]
-        for i,j in enumerate(texts):
-            temp.append(clean_tweet_text(j))
-        words=[]
-        for i,j in enumerate(temp):
-            for n,m in enumerate(j):
-                words.append(m)
+        temp = []
+        for texts_elem in texts:
+            temp.append(clean_tweet_text(texts_elem))
+        words = []
+        for temp_elem in temp:
+            for temp_elem2 in temp_elem:
+                words.append(temp_elem2)
         
         # Getting the frequencies of words in a dictionary
-        freq={}
-        for i,j in enumerate(words):
-            if j in freq:
-                freq[j]+=1
+        freq = {}
+        for words_elem in words:
+            if words_elem in freq:
+                freq[words_elem] += 1
             else:
-                freq[j]=1
+                freq[words_elem] = 1
         
         # Getting the words sorted from highest to lowest frequency
-        fvalues=freq.values().sort(reverse=True)
-        words_sorted = sorted(freq.iteritems(), key=operator.itemgetter(1), reverse=True)
+        words_sorted = sorted(freq.iteritems(),
+            key=operator.itemgetter(1),
+            reverse=True)
         
         # Getting the final (word,frequency,mood) list
-        wfm=[]
-        for i,j in enumerate(words_sorted):
-            wfm.append((j[0],j[1],self.wordlist.get(j[0],'None')))
-        wfm2=[]
-        for i,j in enumerate(wfm):
-            if j[2]!='None':
-                wfm2.append(j)
+        wfm = []
+        for words_sorted_elem in words_sorted:
+            wfm.append((words_sorted_elem[0],
+                words_sorted_elem[1],
+                self.wordlist.get(words_sorted_elem[0], 'None')))
+        wfm2 = []
+        for wfm_elem in wfm:
+            if wfm_elem[2] != 'None':
+                wfm2.append(wfm_elem)
         
         return wfm2
         

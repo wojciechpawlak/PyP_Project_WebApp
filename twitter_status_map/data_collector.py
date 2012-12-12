@@ -83,12 +83,12 @@ class DataCollector(object):
         tweets = []
         
         try:
-            lat, lng = self.gmaps.address_to_latlng(self.region.encode('utf8','ignore'))
+            lat, lng = self.gmaps.address_to_latlng(self.region.encode('utf8', 'ignore'))
         except GoogleMapsError:
             return []
         
-        for num_page in range(1,self.num_pages+1):
-            tweets = tweets + self.api.GetSearch(geocode=(str(lat),str(lng),str(self.radius)+self.dist_unit),lang=self.lang,per_page=self.per_page,page=num_page)
+        for num_page in range(1, self.num_pages+1):
+            tweets = tweets + self.api.GetSearch(geocode = (str(lat), str(lng), str(self.radius)+self.dist_unit), lang=self.lang, per_page = self.per_page, page = num_page)
 
         return tweets
             
@@ -109,8 +109,8 @@ class DataCollector(object):
         
         tweets = []
         
-        for num_page in range(1,self.num_pages+1):
-            tweets = tweets + self.api.GetSearch(term=self.region,lang=self.lang,per_page=self.per_page, page=num_page)
+        for num_page in range(1, self.num_pages+1):
+            tweets = tweets + self.api.GetSearch(term = self.region, lang=self.lang, per_page = self.per_page, page = num_page)
         
         return tweets
 
@@ -165,9 +165,9 @@ class DataCollector(object):
     
         tweets_without_retweets = []
         
-        for t in tweets_with_retweets:
-            if t.text[0:4] != 'RT @':
-                tweets_without_retweets.append(t)
+        for elem in tweets_with_retweets:
+            if elem.text[0:4] != 'RT @':
+                tweets_without_retweets.append(elem)
         
         return tweets_without_retweets
         

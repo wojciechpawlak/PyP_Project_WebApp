@@ -1,3 +1,11 @@
+'''
+02820 Python Programming E12, DTU
+
+PyP_Project_WebApp/twitter_status_map/util.py
+
+Olavur Mortensen s103261, Wojciech Pawlak s091820
+'''
+
 import re
 
 def clean_tweet_text(tweet_text):
@@ -7,14 +15,14 @@ def clean_tweet_text(tweet_text):
     cleanTweet removes words that are not letters A-Z or a-z, and returns a list of remaining words.
     '''
     
-    tweet_text=tweet_text.lower().split()
+    tweet_text = tweet_text.lower().split()
     
-    clean_tweet_text = []
+    cleaned_text = []
     for word in tweet_text:
         if re.match("^[A-Za-z]*$", word):
-            clean_tweet_text.append(word)
+            cleaned_text.append(word)
     
-    return clean_tweet_text
+    return cleaned_text
 
 
 
