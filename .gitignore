@@ -32,3 +32,4 @@ pip-log.txt
 #gedit (Olavur's Ubuntu text editor) temporary files
 *.html~
 *.py~
+*.db

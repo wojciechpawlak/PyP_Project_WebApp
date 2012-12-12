@@ -10,8 +10,6 @@ from googlemaps import GoogleMaps, GoogleMapsError
 
 import time
 
-from twitter_status_map.util import remove_retweets
-
 DEFAULT_REGION = 'Anker Engelunds Vej 1, Denmark'
 DEFAULT_RADIUS = 25
 
@@ -33,7 +31,7 @@ class RegionError(Exception):
 
 class DataCollector(object):
     '''
-    Class for fetching collecting data from specified region from Twitter Search API
+    Class for collecting data from specified region from Twitter Search API
     
     Number of pages with tweets retrieved for project: 3
     
@@ -47,7 +45,14 @@ class DataCollector(object):
 
     def __init__(self):
         '''
-        Constructor
+        Constructs a new DataCollector instance.
+        Assigns the constant values for call to Twitter Search API:
+            language,
+            distance unit,
+            number of tweets per page,
+            number of pages.
+        Assigns default values for region and radius.
+        Constructs instances for twitter Api and googleMaps classes.
         '''
         
         self.region = DEFAULT_REGION
@@ -110,24 +115,24 @@ class DataCollector(object):
         return tweets
 
             
-    def retrieve_tweets(self, region, radius):
+    def retrieve_tweets(self, region = DEFAULT_REGION, radius = DEFAULT_RADIUS):
         '''
         Input: string with region name and number of radius from the center of this region
-        Output:
+        Output: list of all retrieved tweets as Twitter.Status objects from all calls without retweets
         
-        Retrieves tweets from Twitter Search API using different calls
+        Retrieves tweets from Twitter Search API using different calls, uniquify tweets and removes retweets.
         
         '''
         # check the input parameters  
-        if region == '':
-            self.region = DEFAULT_REGION
-        else:
-            self.region = region
-           
-        if region <= 0:
-            self.radius = DEFAULT_RADIUS
-        else:
-            self.radius = radius
+#        if region == '':
+#            self.region = DEFAULT_REGION
+#        else:
+#            self.region = region
+#           
+#        if region <= 0:
+#            self.radius = DEFAULT_RADIUS
+#        else:
+#            self.radius = radius
         
         
         # retrieve tweets using two different Twitter Search API queries one after another
@@ -141,11 +146,27 @@ class DataCollector(object):
         all_tweets_set = set(all_tweets)
         all_tweets = list(all_tweets_set)
         
-        # sort tweets by date
+        # sort tweets by date in descending order from the most recent one
         all_tweets = sorted(all_tweets, key=lambda t: time.strptime(t.created_at, "%a, %d %b %Y %H:%M:%S +0000"), reverse=True)
             
-        #            
-        all_tweets = remove_retweets(all_tweets)
+        # remove retweets (e.g. tweets with RT @ in the beginning of text)           
+        all_tweets = self.__remove_retweets(all_tweets)
         
         return all_tweets
+    
+    def __remove_retweets(self, tweets_with_retweets):
+        '''
+        Input: list of tweets with retweets
+        Output: list of tweets without retweets
+       
+        Removes retweets. Retweet is identified if a tweet starts with 'RT @'. In this case it is removed.
+        '''
+    
+        tweets_without_retweets = []
+        
+        for t in tweets_with_retweets:
+            if t.text[0:4] != 'RT @':
+                tweets_without_retweets.append(t)
+        
+        return tweets_without_retweets
         
