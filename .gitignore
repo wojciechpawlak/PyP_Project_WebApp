@@ -20,16 +20,18 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
+# Translations
 *.mo
 
-#Mr Developer
+# Mr Developer
 .mr.developer.cfg
 
-#SQLite Database
+# SQLite Database
 *.db
 
-#gedit (Olavur's Ubuntu text editor) temporary files
+# gedit (Olavur's Ubuntu text editor) temporary files
 *.html~
 *.py~
-*.db
+
+# Eclipse IDE
+*.prefs
