@@ -30,11 +30,11 @@ class SimpleSentimentAnalyzer(object):
         
     def get_tweet_text_mood(self, text):
         '''
-        text is a string.
+        Output: Integer, or the string 'None' if no mood is associated with it.
         
-        getMood gets the positivity/negativity (mood) of a string (tweet).
+        Input: text is a string.
         
-        Returns an integer, or the string 'None' if no mood is associated with it.
+        get_mood gets the positivity/negativity (mood) of a string (tweet).
         '''
         
         clean_text = clean_tweet_text(text)
@@ -55,9 +55,9 @@ class SimpleSentimentAnalyzer(object):
 
     def get_region_moods(self, texts):
         '''
-        tweetList is a list of strings.
+        Output: List of integers, and potentially the string 'None' in the list (see 'get_mood').
         
-        Gets the mood of each string in the list, and returns a list of moods (integers), and potentially the string 'None' (see 'get_mood').
+        Input: tweetList is a list of strings.
         '''
         
         moods = [ self.get_tweet_text_mood(text) for text in texts ]
@@ -67,11 +67,11 @@ class SimpleSentimentAnalyzer(object):
     
     def clean_none_moods(self, moods):
         '''
-        moodList is a list of integers, and possibly the string 'None'
+        Output: Returns a list of integers.
         
-        cleanNoneMoods removes the string 'None' if found.
+        Input: moods is a list of integers, and possibly the string 'None'
         
-        Returns a list of integers.
+        clean_none_moods removes the string 'None' if found in moods.
         '''
         
         mood_out = []
@@ -106,11 +106,12 @@ class SimpleSentimentAnalyzer(object):
     
     def get_top_word_frequencies(self, texts):
         '''
-        texts is a list of strings.
+        Output: list of tuples in the format: (word,frequency,mood)
         
-        getTopic finds the frequencies of words in texts.
+        Input: texts is a list of strings.
         
-        Returns a list of tuples in the format: (word,frequency,mood)
+        get_top_word_frequencies finds the frequencies of words in texts.
+        
         See 'getMood' for explaination of mood.
         '''
         

@@ -10,9 +10,11 @@ import re
 
 def clean_tweet_text(tweet_text):
     '''
-    tweet is a string.
+    Output: list of strings
     
-    cleanTweet removes words that are not letters A-Z or a-z, and returns a list of remaining words.
+    Input: tweet is a string.
+    
+    clean_tweet removes words that are not letters A-Z or a-z, and returns a list of remaining words.
     '''
     
     tweet_text = tweet_text.lower().split()
