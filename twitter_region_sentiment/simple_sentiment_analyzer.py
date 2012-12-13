@@ -8,7 +8,7 @@ Olavur Mortensen s103261, Wojciech Pawlak s091820
 import operator
 import numpy as np
 
-from twitter_status_map.util import clean_tweet_text
+from twitter_region_sentiment.util import clean_tweet_text
 
 class SimpleSentimentAnalyzer(object):
     '''

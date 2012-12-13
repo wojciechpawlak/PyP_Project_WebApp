@@ -28,6 +28,7 @@ pip-log.txt
 
 # SQLite Database
 *.db
+db\PyP_Project_WebApp.db
 
 # gedit (Olavur's Ubuntu text editor) temporary files
 *.html~

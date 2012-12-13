@@ -128,7 +128,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'easy_maps',
-    'twitter_status_map',
+    'twitter_region_sentiment',
 )
 
 EASY_MAPS_GOOGLE_KEY = "AIzaSyD_7IvHQ55T3U1BphcJvHURbFlUpkcbErw"
