@@ -1,3 +1,11 @@
+'''
+02820 Python Programming E12, DTU
+
+models.py
+
+Olavur Mortensen s103261, Wojciech Pawlak s091820
+'''
+
 from django.db import models
 
 class Map(models.Model):

@@ -1,9 +1,10 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+'''
+02820 Python Programming E12, DTU
 
-Replace this with more appropriate tests for your application.
-"""
+tests.py
+
+Olavur Mortensen s103261, Wojciech Pawlak s091820
+'''
 
 from django.test.client import Client
 #from django.test import TestCase
@@ -12,7 +13,7 @@ from django.utils import unittest
 from twitter_region_sentiment.data_collector import DataCollector, RegionError
 from twitter_region_sentiment.simple_sentiment_analyzer import SimpleSentimentAnalyzer
 
-from twitter_region_sentiment.models import Tweet
+from twitter_region_sentiment.models import Tweet, RegionQuery
 
 class DataCollectorTest(unittest.TestCase):
     
@@ -30,6 +31,15 @@ class SimpleSentimentAnalyzerTest(unittest.TestCase):
 
     def setUp(self):
         self.dc = SimpleSentimentAnalyzer()
+        self.pos_tweet = 'Congrats SolarCitys discount approach to going public pays off'
+        self.neg_tweet = 'Done with wack ass finals!!!'
+        
+    def test_get_tweet_text_mood(self):
+        result_pos = self.dc.get_tweet_text_mood(self.pos_tweet)
+        self.assertEqual(2,result_pos)
+        
+        result_neg = self.dc.get_tweet_text_mood(self.neg_tweet)
+        self.assertEqual(-4,result_neg)
 
 class IndexControllerTest(unittest.TestCase):
     def setUp(self):
@@ -57,6 +67,6 @@ class IndexControllerTest(unittest.TestCase):
 #        self.tweet = Tweet.objects.create(tweet_id="")
 
         
-#class QueryModelTest(unittest.TestCase):
+#class RegionQueryModelTest(unittest.TestCase):
 #    def setUp(self):
 #        self.c = Client()
